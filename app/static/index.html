@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="description" content="SQLVIP：在 DB2、PostgreSQL、Oracle、MySQL 和达梦数据库之间快速转换 SQL。">
+  <title>SQLVIP · SQL 方言转换</title>
+  <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="SQLVIP 首页">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <ellipse cx="12" cy="5.5" rx="6.5" ry="2.6"></ellipse>
+          <path d="M5.5 5.5v6c0 1.44 2.91 2.6 6.5 2.6s6.5-1.16 6.5-2.6v-6"></path>
+          <path d="M5.5 11.5v6c0 1.44 2.91 2.6 6.5 2.6s6.5-1.16 6.5-2.6v-6"></path>
+        </svg>
+      </span>
+      <span class="brand-name">SQL<span>VIP</span></span>
+    </a>
+
+    <div class="topbar-right">
+      <span class="local-pill">
+        <span class="local-dot" aria-hidden="true"></span>
+        纯本地转换
+      </span>
+      <a class="api-link" href="/api/docs" target="_blank" rel="noopener">
+        API 文档
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M7 17 17 7M9 7h8v8"></path>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span aria-hidden="true"></span> MULTI-DIALECT SQL TRANSPILER</div>
+        <h1>SQL 方言，<em>一键直达。</em></h1>
+        <p>在 DB2、PostgreSQL、Oracle、MySQL 与达梦之间转换 SQL。粘贴、选择、转换，无需连接数据库。</p>
+      </div>
+      <div class="hero-stats" aria-label="产品能力">
+        <div class="hero-stat">
+          <strong>5</strong>
+          <span>数据库方言</span>
+        </div>
+        <div class="hero-stat">
+          <strong>25</strong>
+          <span>转换组合</span>
+        </div>
+        <div class="hero-stat">
+          <strong>100<small>%</small></strong>
+          <span>本地处理</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace" id="workspace" aria-label="SQL 转换工作台">
+      <div class="toolbar">
+        <div class="dialect-controls">
+          <div class="dialect-field">
+            <label for="source-select">源数据库</label>
+            <div class="select-shell">
+              <select id="source-select" autocomplete="off">
+                <option value="mysql">MySQL</option>
+                <option value="postgres">PostgreSQL</option>
+                <option value="oracle">Oracle</option>
+                <option value="db2">DB2</option>
+                <option value="dameng">达梦 DM</option>
+              </select>
+              <svg class="select-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </div>
+          </div>
+
+          <button class="swap-button" id="swap-button" type="button" title="交换源数据库和目标数据库" aria-label="交换源数据库和目标数据库">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7 7h12M15 3l4 4-4 4M17 17H5M9 13l-4 4 4 4"></path>
+            </svg>
+          </button>
+
+          <div class="dialect-field">
+            <label for="target-select">目标数据库</label>
+            <div class="select-shell">
+              <select id="target-select" autocomplete="off">
+                <option value="oracle">Oracle</option>
+                <option value="postgres">PostgreSQL</option>
+                <option value="mysql">MySQL</option>
+                <option value="db2">DB2</option>
+                <option value="dameng">达梦 DM</option>
+              </select>
+              <svg class="select-chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar-tools">
+          <button class="tool-button" id="sample-button" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m12 3 1.4 4.1L17.5 8.5l-4.1 1.4L12 14l-1.4-4.1-4.1-1.4 4.1-1.4L12 3Z"></path>
+              <path d="m18.5 14 .8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z"></path>
+            </svg>
+            载入示例
+          </button>
+          <button class="tool-button" id="clear-button" type="button">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13M10 11v5M14 11v5"></path>
+            </svg>
+            清空
+          </button>
+          <span class="tool-divider" aria-hidden="true"></span>
+          <label class="switch-field" for="pretty-toggle">
+            <input type="checkbox" id="pretty-toggle" checked>
+            <span class="switch-ui" aria-hidden="true"></span>
+            <span>美化格式</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="editor-grid">
+        <article class="editor-panel" id="source-panel">
+          <header class="panel-header">
+            <div class="panel-heading">
+              <span class="panel-dot source-dot" aria-hidden="true"></span>
+              <h2>输入 SQL</h2>
+              <span class="dialect-badge source-badge" id="source-badge">MySQL</span>
+            </div>
+            <span class="panel-meta">Ctrl + Enter</span>
+          </header>
+
+          <div class="code-window">
+            <div class="gutter" id="source-gutter" aria-hidden="true">1</div>
+            <textarea
+              id="source-input"
+              class="code-input"
+              spellcheck="false"
+              wrap="off"
+              autocomplete="off"
+              autocapitalize="off"
+              placeholder="在此粘贴需要转换的 SQL…"
+              aria-label="输入需要转换的 SQL"
+            ></textarea>
+          </div>
+
+          <footer class="panel-footer">
+            <span id="source-count">0 行 · 0 字符</span>
+            <span class="footer-language">SQL</span>
+          </footer>
+        </article>
+
+        <article class="editor-panel output-panel" id="output-panel">
+          <header class="panel-header">
+            <div class="panel-heading">
+              <span class="panel-dot output-dot" aria-hidden="true"></span>
+              <h2>目标 SQL</h2>
+              <span class="dialect-badge target-badge" id="target-badge">Oracle</span>
+            </div>
+            <div class="panel-actions">
+              <button class="copy-button" id="copy-button" type="button" disabled>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="8" y="8" width="11" height="12" rx="2"></rect>
+                  <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2"></path>
+                </svg>
+                <span id="copy-label">复制</span>
+              </button>
+            </div>
+          </header>
+
+          <div class="code-window">
+            <div class="gutter" id="output-gutter" aria-hidden="true">1</div>
+            <pre class="code-output" id="output-code" tabindex="0" aria-label="转换后的 SQL"></pre>
+            <div class="output-empty" id="output-empty">
+              <span class="empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"></path>
+                </svg>
+              </span>
+              <p id="empty-title">转换结果</p>
+              <span id="empty-hint">粘贴 SQL 后点击「转换 SQL」</span>
+            </div>
+          </div>
+
+          <footer class="panel-footer">
+            <span id="output-count">等待转换</span>
+            <span class="timing" id="timing"></span>
+          </footer>
+        </article>
+      </div>
+
+      <div class="action-row">
+        <div class="status-wrap">
+          <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+          <span id="status-text" aria-live="polite">准备就绪</span>
+        </div>
+
+        <button class="convert-button" id="convert-button" type="button">
+          <span class="spinner" id="convert-spinner" aria-hidden="true"></span>
+          <svg class="convert-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h13M13 6l6 6-6 6"></path>
+          </svg>
+          <span id="convert-label">转换 SQL</span>
+          <span class="shortcut">Ctrl ↵</span>
+        </button>
+
+        <p class="privacy-note">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3 5 6v5c0 4.4 2.9 8.2 7 10 4.1-1.8 7-5.6 7-10V6l-7-3Z"></path>
+            <path d="m9.5 12 1.8 1.8 3.4-3.6"></path>
+          </svg>
+          SQL 仅在当前服务中处理
+        </p>
+      </div>
+
+      <div class="notice" id="notice" hidden aria-live="polite">
+        <span class="notice-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 8v5M12 16.5v.1"></path>
+            <circle cx="12" cy="12" r="9"></circle>
+          </svg>
+        </span>
+        <div class="notice-body">
+          <p class="notice-title">转换提示</p>
+          <ul id="notice-list"></ul>
+        </div>
+      </div>
+
+      <div class="notice error-notice" id="error-panel" hidden role="alert">
+        <span class="notice-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 8v5M12 16.5v.1"></path>
+            <path d="M10.3 4.2 2.6 18a1.8 1.8 0 0 0 1.6 2.7h15.6a1.8 1.8 0 0 0 1.6-2.7L13.7 4.2a2 2 0 0 0-3.4 0Z"></path>
+          </svg>
+        </span>
+        <div class="notice-body">
+          <p class="notice-title" id="error-title">转换失败</p>
+          <p class="error-message" id="error-message"></p>
+          <p class="error-hint" id="error-hint" hidden></p>
+          <p class="error-location" id="error-location" hidden></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="support-strip" aria-label="支持的数据库">
+      <span class="support-label">已支持</span>
+      <span class="support-item">DB2</span>
+      <span class="support-sep" aria-hidden="true"></span>
+      <span class="support-item">PostgreSQL</span>
+      <span class="support-sep" aria-hidden="true"></span>
+      <span class="support-item">Oracle</span>
+      <span class="support-sep" aria-hidden="true"></span>
+      <span class="support-item">MySQL</span>
+      <span class="support-sep" aria-hidden="true"></span>
+      <span class="support-item">达梦 DM8</span>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>SQLVIP <span class="footer-sep">·</span> FastAPI + SQLGlot</span>
+    <span class="footer-note">DDL / DML / 查询 · 语句级转换</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
